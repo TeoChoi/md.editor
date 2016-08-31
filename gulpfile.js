@@ -5,7 +5,6 @@ var webpackConfig = require("./webpack.config.js");
 
 gulp.task("server", function () {
     connect.server({
-        // root: 'example',
         livereload: true
     });
 });

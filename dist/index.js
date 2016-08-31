@@ -264,7 +264,7 @@ webpackJsonp([2],{
 	                    event.preventDefault();
 	                }
 
-	                if ($.inArray(event.keyCode, [13, 8]) != -1) {
+	                if ($.inArray(event.keyCode, [13]) != -1) {
 	                    switch (event.keyCode) {
 	                        case 13:
 	                            {
