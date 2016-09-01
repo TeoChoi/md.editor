@@ -115,7 +115,6 @@ class PreviewManager {
                     if (className && className.split(' ').length) {
                         className = className.split(' ')[0];
                         let lang = require("bundle!highlight.js/lib/languages/" + className);
-console.log(1);
                         lang((module) => {
                             hljs.registerLanguage(className, module);
                             hljs.highlightBlock(code);
