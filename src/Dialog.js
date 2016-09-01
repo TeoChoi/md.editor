@@ -20,7 +20,7 @@ class Dialog {
                     text = 'http://' + text;
             }
 
-            dialog.modal('hide').remove()
+            dialog.modal('hide');
 
             callback(text);
             return false;
@@ -50,6 +50,10 @@ class Dialog {
 `);
 
             $('body').append(dialog);
+
+            dialog.on('hidden.bs.modal', function (e) {
+                dialog.remove();
+            });
 
             input = document.getElementById('linkInput');
 
@@ -86,7 +90,7 @@ class Dialog {
                     text = 'http://' + text;
             }
 
-            dialog.modal('hide').remove();
+            dialog.modal('hide');
 
             callback(text);
             return false;
@@ -134,6 +138,10 @@ class Dialog {
 `);
 
             $('body').append(dialog);
+
+            dialog.on('hidden.bs.modal', function (e) {
+                dialog.remove();
+            });
 
             input = document.getElementById('remotePicUrl');
             let cancelButton = $('#imageCancelButton');

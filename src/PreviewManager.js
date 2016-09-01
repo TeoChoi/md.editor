@@ -1,4 +1,4 @@
-let hljs = require("bundle?lazy!highlight.js");
+let hljs = require("bundle?lazy!highlight.js/lib/highlight.js");
 let hljscss = require("bundle?lazy!highlight.js/styles/atom-one-dark.css");
 let raphael = require("bundle?lazy!raphael");
 let flowchart = require("bundle?lazy!flowchart.js");
@@ -110,7 +110,18 @@ class PreviewManager {
             hljs((hljs) => {
                 hljscss(() => {});
                 $('code').each(function (i, code) {
-                    hljs.highlightBlock(code);
+                    let className = $(this).attr('class');
+
+                    if (className && className.split(' ').length) {
+                        className = className.split(' ')[0];
+                        let lang = require("bundle!highlight.js/lib/languages/" + className);
+console.log(1);
+                        lang((module) => {
+                            hljs.registerLanguage(className, module);
+                            hljs.highlightBlock(code);
+                        })
+
+                    }
                 })
             });
         }
