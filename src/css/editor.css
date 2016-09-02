@@ -182,6 +182,10 @@ blockquote {
 .wmd-spacer3 {
     left:300px;
 }
+.wmd-spacer4 {
+    float: right;
+    right:75px;
+}
 .wmd-prompt-background {
     background-color:Black;
     filter:alpha(opacity=50);

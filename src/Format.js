@@ -2,9 +2,9 @@ import {TextAreaState} from "./TextAreaState";
 
 class Format
 {
-    constructor(input, converter) {
+    constructor(input, options) {
         this.input = input;
-        this.converter = converter;
+        this.converter = options.converter;
     }
 
     getHtml() {

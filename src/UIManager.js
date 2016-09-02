@@ -7,9 +7,10 @@ let buttons = {}
  */
 class UIManager {
 
-    constructor(panel, getString) {
+    constructor(id, panel, getString) {
         this.getString = getString;
         this.panel = panel;
+        this.id = id;
     }
 
     magic() {
@@ -116,63 +117,69 @@ class UIManager {
     }
 
     makeButtonRow() {
-        let normalYShift = "0px", disabledYShift = "-20px", highlightYShift = "-40px";
         this.buttonRow = $("<div></div>").addClass("wmd-button-row");
 
         $(this.panel.toolbar).append(this.buttonRow);
 
-        let xPosition = 0, step = () => {
-            xPosition += 25;
-        };
+        buttons.bold = this.makeButton("wmd-bold-button", this.getString("bold"), "0px", this.bind("doBold"));
 
+        buttons.italic = this.makeButton("wmd-italic-button", this.getString("italic"), "-20px", this.bind("doItalic"));
 
-        buttons.bold = this.makeButton("wmd-bold-button", this.getString("bold"), "0px", xPosition, this.bind("doBold"));
-        step();
-        buttons.italic = this.makeButton("wmd-italic-button", this.getString("italic"), "-20px", xPosition, this.bind("doItalic"));
-        step();
         this.makeSpacer(1);
-        step();
-        buttons.link = this.makeButton("wmd-link-button", this.getString("link"), "-40px", xPosition, this.bind((chunk, postProcessing) => {
+
+        buttons.link = this.makeButton("wmd-link-button", this.getString("link"), "-40px", this.bind((chunk, postProcessing) => {
             return this.commandManager.doLinkOrImage(chunk, postProcessing, false);
         }));
-        step();
-        buttons.quote = this.makeButton("wmd-quote-button", this.getString("quote"), "-60px", xPosition, this.bind("doBlockQuote"));
-        step();
-        buttons.code = this.makeButton("wmd-code-button", this.getString("code"), "-80px", xPosition, this.bind("doCode"));
-        step();
-        buttons.image = this.makeButton("wmd-image-button", this.getString("image"), "-100px", xPosition, this.bind((chunk, postProcessing) => {
+
+        buttons.quote = this.makeButton("wmd-quote-button", this.getString("quote"), "-60px", this.bind("doBlockQuote"));
+
+        buttons.code = this.makeButton("wmd-code-button", this.getString("code"), "-80px", this.bind("doCode"));
+
+        buttons.image = this.makeButton("wmd-image-button", this.getString("image"), "-100px", this.bind((chunk, postProcessing) => {
             return this.commandManager.doLinkOrImage(chunk, postProcessing, true);
         }));
-        step();
+
         this.makeSpacer(2);
-        step();
-        buttons.olist = this.makeButton("wmd-olist-button", this.getString("olist"), "-120px", xPosition, this.bind((chunk, postProcessing) => {
+
+        buttons.olist = this.makeButton("wmd-olist-button", this.getString("olist"), "-120px", this.bind((chunk, postProcessing) => {
             return this.commandManager.doList(chunk, postProcessing, true);
         }));
-        step();
-        buttons.ulist = this.makeButton("wmd-ulist-button", this.getString("ulist"), "-140px", xPosition, this.bind((chunk, postProcessing) => {
+
+        buttons.ulist = this.makeButton("wmd-ulist-button", this.getString("ulist"), "-140px", this.bind((chunk, postProcessing) => {
             return this.commandManager.doList(chunk, postProcessing, false);
         }));
-        step();
-        buttons.heading = this.makeButton("wmd-heading-button", this.getString("heading"), "-160px", xPosition, this.bind("doHeading"));
-        step();
-        buttons.hr = this.makeButton("wmd-hr-button", this.getString("hr"), "-180px", xPosition, this.bind("doHorizontalRule"));
-        step();
+
+        buttons.heading = this.makeButton("wmd-heading-button", this.getString("heading"), "-160px", this.bind("doHeading"));
+
+        buttons.hr = this.makeButton("wmd-hr-button", this.getString("hr"), "-180px", this.bind("doHorizontalRule"));
+
         this.makeSpacer(3);
-        step();
+
 
         // 撤销和恢复,需要借助UndoManager
-        buttons.undo = this.makeButton("wmd-undo-button", this.getString("undo"), "-200px", xPosition, null);
+        buttons.undo = this.makeButton("wmd-undo-button", this.getString("undo"), "-200px", null);
         buttons.undo.execute = function (manager) {
             if (manager) manager.undo();
         };
-        step();
+
         let redoTitle = /win/.test(window.navigator.platform.toLowerCase()) ? this.getString("redo") : this.getString("redomac");
-        buttons.redo = this.makeButton("wmd-redo-button", redoTitle, "-220px", xPosition, null);
+        buttons.redo = this.makeButton("wmd-redo-button", redoTitle, "-220px", null);
         buttons.redo.execute = function (manager) {
             if (manager) manager.redo();
         };
 
+
+        buttons.pullRight = this.makeButton('wmd-pull-right-button', '', '-360px', () => {}, 'right');
+
+        buttons.split = this.makeButton('wmd-split-button', '', '-340px', () => {}, 'right');
+
+        buttons.pullLeft = this.makeButton('wmd-pull-left-button', '', '-320px', () => {}, 'right');
+
+        this.makeSpacer(4);
+
+        buttons.full = this.makeButton('wmd-full-button', '', '-240px', () => {}, 'right');
+
+        buttons.normal = this.makeButton('wmd-normal-button', '', '-260px', () => {}, 'right');
         // 重新设置撤销和恢复按钮的状态
         this.setUndoRedoButtonStates();
     }
@@ -196,8 +203,10 @@ class UIManager {
      * @param textOp
      * @returns {*|jQuery}
      */
-    makeButton(id, title, XShift, xPosition, textOp) {
-        let button = $("<li></li>").addClass("wmd-button").attr("id", id + this.id).css('left', xPosition);
+    makeButton(id, title, XShift, textOp, float = "left") {
+
+        let button = $("<li></li>").addClass("wmd-button").attr("id", id + "_" + this.id);
+        float == 'right' ? button.css({float: float}) : null;
         let buttonImage = $("<span></span>");
 
         button.append(buttonImage);
@@ -217,7 +226,7 @@ class UIManager {
      * @param num
      */
     makeSpacer(num) {
-        let spacer = $("<li></li>").addClass("wmd-spacer wmd-spacer" + num).attr("id", "wmd-spacer" + num + this.id);
+        let spacer = $("<li></li>").addClass("wmd-spacer wmd-spacer" + num).attr("id", "wmd-spacer" + num + "_" + this.id);
         this.buttonRow.append(spacer);
     }
 
@@ -251,8 +260,7 @@ class UIManager {
         }
         else {
             image.css("background-position", button.XShift + " " + disabledYShift);
-            button.off('mouseover mouseout click')
-            // button.on("mouseover mouseout click", () => {});
+            button.off('mouseover mouseout click');
         }
     }
 

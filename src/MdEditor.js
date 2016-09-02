@@ -25,13 +25,13 @@ class MdEditor {
         commandManager.dialog = dialog;
         undoManager = new UndoManager(panel.input);
 
-        options.format = new Format(panel.input, options.converter);
+        options.format = new Format(panel.input, options);
 
         if (options.enablePreview) {
             previewManager = new PreviewManager(panel, options);
         }
 
-        this.uiManager = new UIManager(panel, this.getString);
+        this.uiManager = new UIManager(id, panel, this.getString);
 
         undoManager.callback = () => {
             this.uiManager.setUndoRedoButtonStates();

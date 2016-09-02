@@ -19,7 +19,7 @@ class PreviewManager {
     }
 
     registerEvents(input, listener) {
-        $(input).bind('input paste drop keypress keydown', listener);
+        $(input).on('input paste drop keypress keydown', listener);
     }
 
     refresh(requiresRefresh) {
@@ -97,7 +97,6 @@ class PreviewManager {
                 cur.parent('p').removeAttr("class");
             }, 3000);
         }
-
 
         if (cur.position().top < this.panel.preview.clientHeight && cur.position().top > 0) {
             return;
