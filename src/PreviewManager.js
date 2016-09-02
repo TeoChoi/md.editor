@@ -41,6 +41,9 @@ class PreviewManager {
 
     makePreviewHtml() {
         let text = this.panel.input.value;
+        if (text.trim() == "") {
+            return;
+        }
         if (text && text == this.oldInputText) {
             return; // 文本没有变化,不进行下一步的操作
         }
@@ -119,7 +122,8 @@ class PreviewManager {
                             hljs.registerLanguage(className, module);
                             hljs.highlightBlock(code);
                         })
-
+                    } else {
+                        hljs.highlightBlock(code);
                     }
                 })
             });

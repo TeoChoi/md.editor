@@ -12,9 +12,9 @@ module.exports = {
     }
     //入口文件输出配置
     , output: {
-        path: path.resolve("dist"),
-        filename: "[name].js",
-        publicPath: "/dist/"
+        path: path.resolve("dist")
+        , filename: "[name].js"
+        , publicPath: "./dist/"
     }
     , watch: true
     , module: {
