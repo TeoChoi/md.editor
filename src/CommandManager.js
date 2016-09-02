@@ -277,11 +277,9 @@ class CommandManager {
             chunk.skipLines(nLinesBack, nLinesForward);
 
             if (!chunk.selection) {
-                // chunk.startTag = "```\n";
-                // chunk.selection = this.getString("codeexample");
-                // chunk.endTag = "\n```";
-                chunk.startTag = "    ";
+                chunk.startTag = "```\n";
                 chunk.selection = this.getString("codeexample");
+                chunk.endTag = "\n```";
             }
             else {
                 if (/^[ ]{0,3}\S/m.test(chunk.selection)) {

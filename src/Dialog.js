@@ -1,8 +1,8 @@
 let fileUpload = require('bundle?lazy!jquery.fileupload');
 
 class Dialog {
-    constructor(uploadUrl) {
-        this.uploadUrl = uploadUrl;
+    constructor(options) {
+        this.uploadUrl = options.uploadUrl;
     }
 
     link(text, callback) {

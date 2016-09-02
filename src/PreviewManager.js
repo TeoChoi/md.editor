@@ -5,11 +5,13 @@ let flowchart = require("bundle?lazy!flowchart.js");
 
 class PreviewManager {
 
-    constructor(panel, format) {
+    constructor(panel, options) {
         this.panel = panel;
-        this.format = format;
+        this.format = options.format;
         this.maxDelay = 3000;
         this.specialString = "MDEditorSpecialString";
+        this.highlight = options.highlight;
+        this.flowchart = options.flowchart;
 
         this.registerEvents(this.panel.input, () => this.applyTimeout());
         this.makePreviewHtml();
@@ -36,7 +38,13 @@ class PreviewManager {
             this.timeout = undefined;
         }
 
-        this.timeout = setTimeout(() => this.makePreviewHtml(), this.elapsedTime);
+        let delay = this.elapsedTime;
+
+        if (delay > this.maxDelay) {
+            delay = this.maxDelay;
+        }
+
+        this.timeout = setTimeout(() => this.makePreviewHtml(), delay);
     };
 
     makePreviewHtml() {
@@ -80,22 +88,21 @@ class PreviewManager {
             return;
         }
 
-        if (cur.parentsUntil('p').length != 0) {
-            cur.parent().addClass('diff');
+        if (cur.parent('p').length != 0) {
+            cur.parent('p').addClass('diff');
             if (this.t)
                 clearTimeout(this.t);
 
-            this.t = setTimeout(function () {
-                cur.parent().removeAttr("class");
+            this.t = setTimeout(() => {
+                cur.parent('p').removeAttr("class");
             }, 3000);
         }
 
-        setTimeout(() => {
-            if (cur.position().top < this.panel.preview.clientHeight && cur.position().top > 0) {
-                return;
-            }
-            this.panel.preview.scrollTop = this.panel.preview.scrollTop + cur.position().top;
-        }, 0)
+
+        if (cur.position().top < this.panel.preview.clientHeight && cur.position().top > 0) {
+            return;
+        }
+        this.panel.preview.scrollTop = this.panel.preview.scrollTop + cur.position().top;
     }
 
     afterPreview() {
@@ -115,11 +122,15 @@ class PreviewManager {
 
                     if (className && className.split(' ').length) {
                         className = className.split(' ')[0];
-                        let lang = require("bundle!highlight.js/lib/languages/" + className);
-                        lang((module) => {
-                            hljs.registerLanguage(className, module);
+                        try {
+                            let lang = require("bundle!highlight.js/lib/languages/" + className);
+                            lang((module) => {
+                                hljs.registerLanguage(className, module);
+                                hljs.highlightBlock(code);
+                            })
+                        } catch (err) {
                             hljs.highlightBlock(code);
-                        })
+                        }
                     } else {
                         hljs.highlightBlock(code);
                     }
