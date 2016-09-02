@@ -14,7 +14,7 @@ module.exports = {
     , output: {
         path: path.resolve("dist")
         , filename: "[name].js"
-        , publicPath: "./dist/"
+        , publicPath: "dist/"
     }
     , watch: true
     , module: {
@@ -27,7 +27,7 @@ module.exports = {
     }
     , resolve: {
         alias: {
-            "jquery.fileupload": path.resolve("./js/jquery.fileupload.js")
+            "jquery.fileupload": path.resolve("./src/js/jquery.fileupload.js")
         }
     }
 };

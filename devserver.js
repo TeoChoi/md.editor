@@ -10,6 +10,10 @@ app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.post('/upload.json', function (req, res) {
+	res.sendFile(path.join(__dirname, 'upload.json'));
+});
+
 app.listen(port, '0.0.0.0', function (err) {
 	if (err) {
 		console.log(err);

@@ -1,2 +1,2 @@
 require("bootstrap/dist/css/bootstrap.css");
-require("./css/editor.css");
+require("./src/css/editor.css");

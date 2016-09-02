@@ -41,7 +41,7 @@ class PreviewManager {
 
     makePreviewHtml() {
         let text = this.panel.input.value;
-        
+
         if (text && text == this.oldInputText) {
             return; // 文本没有变化,不进行下一步的操作
         }

@@ -13,11 +13,6 @@ class Dialog {
 
             if (isCancel) {
                 text = null;
-            } else {
-                // 修复一些没呀协议头的地址
-                text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
-                if (!/^(?:https?|ftp):\/\//.test(text))
-                    text = 'http://' + text;
             }
 
             dialog.modal('hide');
@@ -84,10 +79,6 @@ class Dialog {
 
             if (isCancel) {
                 text = null;
-            } else {
-                text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
-                if (!/^(?:https?|ftp):\/\//.test(text))
-                    text = 'http://' + text;
             }
 
             dialog.modal('hide');

@@ -122,12 +122,18 @@ blockquote {
     padding: 5px 8px;
     word-break: normal;
 }
+.wmd-preview table th {
+    background-color: #f3f3f3;
+}
 .wmd-preview > p.diff {
     background-color: #D9EDF7;
 }
 .wmd-preview > h1,h2 {
     border-bottom: 1px solid #eeeeee;
     padding-bottom: 10px;
+}
+.wmd-preview img {
+    max-width: 100%;
 }
 .wmd-button-row {
     position:static;
@@ -186,8 +192,7 @@ blockquote {
 }
 
 .wmd-input {
-    /*height:100%;*/
-    /*width:100%;*/
+    width:50%;
     min-height:600px;
     margin-top:30px;
     padding:6px 12px;
@@ -197,14 +202,6 @@ blockquote {
     box-sizing:border-box;
     background-color:#ffffff;
     resize:none;
-
-    /*position:relative;*/
-    /*overflow:hidden;*/
-    width:50%;
-    /*background-color:#fff;*/
-    /*height:auto;*/
-    /*min-height:420px;*/
-    /*padding:0;*/
     border-right:none;
     -webkit-transition:width .3s ease;
     transition:width .3s ease;
