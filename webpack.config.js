@@ -3,7 +3,8 @@ var path = require("path");
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin("global.js");
 
 module.exports = {
-    plugins: [commonsPlugin]// 打包公共代码
+    devtool: "source-map"
+    , plugins: [commonsPlugin]// 打包公共代码
     //页面入口文件配置
     , entry: {
         "global.js": ["jquery", "bootstrap"],
