@@ -31,10 +31,11 @@ class MdEditor {
             previewManager = new PreviewManager(panel, options);
         }
 
-        this.uiManager = new UIManager(id, panel, this.getString);
+        this.uiManager = new UIManager(id, panel, this.getString, options);
 
         undoManager.callback = () => {
             this.uiManager.setUndoRedoButtonStates();
+            previewManager.refresh();
         };
 
         this.uiManager.commandManager = commandManager;

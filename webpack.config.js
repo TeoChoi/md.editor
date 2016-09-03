@@ -3,8 +3,7 @@ var path = require("path");
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin("global.js");
 
 module.exports = {
-    devtool: "source-map"
-    , plugins: [commonsPlugin]// 打包公共代码
+    plugins: [commonsPlugin]// 打包公共代码
     //页面入口文件配置
     , entry: {
         "global.js": ["jquery", "bootstrap"],
@@ -31,4 +30,5 @@ module.exports = {
             "jquery.fileupload": path.resolve("./src/js/jquery.fileupload.js")
         }
     }
+    , devtool: "source-map"
 };

@@ -7,10 +7,11 @@ let buttons = {}
  */
 class UIManager {
 
-    constructor(id, panel, getString) {
-        this.getString = getString;
-        this.panel = panel;
+    constructor(id, panel, getString, options) {
         this.id = id;
+        this.panel = panel;
+        this.getString = getString;
+        this.enablePreview = options.enablePreview;
     }
 
     magic() {
@@ -117,10 +118,6 @@ class UIManager {
     }
 
     makeButtonRow() {
-        this.buttonRow = $("<div></div>").addClass("wmd-button-row");
-
-        $(this.panel.toolbar).append(this.buttonRow);
-
         buttons.bold = this.makeButton("wmd-bold-button", this.getString("bold"), "0px", this.bind("doBold"));
 
         buttons.italic = this.makeButton("wmd-italic-button", this.getString("italic"), "-20px", this.bind("doItalic"));
@@ -168,20 +165,34 @@ class UIManager {
             if (manager) manager.redo();
         };
 
+        if (this.enablePreview) {
+            buttons.viewMode = this.makeButton('wmd-view-button', '', '-360px', null, 'right');
+            buttons.viewMode.execute = () => {
+                this.panel.setMode("viewMode");
+                this.setPanelStates();
+            };
 
-        buttons.pullRight = this.makeButton('wmd-pull-right-button', '', '-360px', () => {}, 'right');
+            buttons.liveMode = this.makeButton('wmd-live-button', '', '-340px', null, 'right');
+            buttons.liveMode.execute = () => {
+                this.panel.setMode("liveMode");
+                this.setPanelStates();
+            };
 
-        buttons.split = this.makeButton('wmd-split-button', '', '-340px', () => {}, 'right');
+            buttons.editMode = this.makeButton('wmd-edit-button', '', '-320px', null, 'right');
+            buttons.editMode.execute = () => {
+                this.panel.setMode("editMode");
+                this.setPanelStates();
+            };
 
-        buttons.pullLeft = this.makeButton('wmd-pull-left-button', '', '-320px', () => {}, 'right');
-
-        this.makeSpacer(4);
+            this.makeSpacer(4);
+        }
 
         buttons.full = this.makeButton('wmd-full-button', '', '-240px', () => {}, 'right');
 
         buttons.normal = this.makeButton('wmd-normal-button', '', '-260px', () => {}, 'right');
         // 重新设置撤销和恢复按钮的状态
         this.setUndoRedoButtonStates();
+        this.setPanelStates();
     }
 
     /**
@@ -192,6 +203,13 @@ class UIManager {
             this.setupButton(buttons.undo, this.undoManager.canUndo());
             this.setupButton(buttons.redo, this.undoManager.canRedo());
         }
+    }
+
+    setPanelStates()
+    {
+        this.setupButton(buttons.viewMode, this.panel.mode != 'viewMode');
+        this.setupButton(buttons.editMode, this.panel.mode != 'editMode');
+        this.setupButton(buttons.liveMode, this.panel.mode != 'liveMode');
     }
 
     /**
@@ -207,16 +225,24 @@ class UIManager {
 
         let button = $("<li></li>").addClass("wmd-button").attr("id", id + "_" + this.id);
         float == 'right' ? button.css({float: float}) : null;
-        let buttonImage = $("<span></span>");
+        let buttonImage = $("<a></a>");
 
         button.append(buttonImage);
         button.attr("title", title);
         button.XShift = XShift;
 
-        if (textOp)
+        if (textOp) {
             button.textOp = textOp;
+        }
+        button.on('click', (event) => {
+            if (!button.enable) {
+                return false;
+            }
+            this.doClick(button);
+        });
+
         this.setupButton(button, true);
-        this.buttonRow.append(button);
+        $(this.panel.toolbar).append(button);
 
         return button;
     }
@@ -226,8 +252,8 @@ class UIManager {
      * @param num
      */
     makeSpacer(num) {
-        let spacer = $("<li></li>").addClass("wmd-spacer wmd-spacer" + num).attr("id", "wmd-spacer" + num + "_" + this.id);
-        this.buttonRow.append(spacer);
+        let spacer = $("<li></li>").addClass("wmd-button-spacer wmd-button-spacer" + num).attr("id", "wmd-spacer" + num + "_" + this.id);
+        $(this.panel.toolbar).append(spacer);
     }
 
     /**
@@ -236,31 +262,16 @@ class UIManager {
      * @param isEnabled
      */
     setupButton(button, isEnabled) {
-        let normalYShift = "0px", disabledYShift = "-20px", highlightYShift = "-40px";
-        let image = button.find("span");
+        let image = button.find("a");
+        image.css("background-position-x", button.XShift);
 
         if (isEnabled) {
-            image.css("background-position", button.XShift + " " + normalYShift);
-
-            button.on("mouseover", () => {
-                image.css("background-position", button.XShift + " " + highlightYShift);
-            });
-
-            button.on("mouseout", () => {
-                image.css("background-position", button.XShift + " " + normalYShift);
-            });
-
-            if (button) {
-                button.on("click", (event) => {
-                    $(this).mouseout();
-                    this.doClick(button)
-                    return false;
-                })
-            }
+            button.enable = true;
+            button.removeClass("disabled");
         }
         else {
-            image.css("background-position", button.XShift + " " + disabledYShift);
-            button.off('mouseover mouseout click');
+            button.enable = false;
+            button.addClass("disabled");
         }
     }
 
@@ -280,7 +291,7 @@ class UIManager {
 
     doClick(button) {
         this.panel.input.focus();
-
+console.log(1)
         if (button.textOp) {
 
             if (this.undoManager) {

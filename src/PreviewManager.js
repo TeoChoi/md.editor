@@ -19,7 +19,7 @@ class PreviewManager {
     }
 
     registerEvents(input, listener) {
-        $(input).on('input paste drop keypress keydown', listener);
+        $(input).on('keypress keydown input drop paste', listener);
     }
 
     refresh(requiresRefresh) {
@@ -50,8 +50,9 @@ class PreviewManager {
     makePreviewHtml() {
         let text = this.panel.input.value;
 
+        // 文本没有变化,不进行下一步的操作
         if (text && text == this.oldInputText) {
-            return; // 文本没有变化,不进行下一步的操作
+            return;
         }
         else {
             this.oldInputText = text;
@@ -65,7 +66,7 @@ class PreviewManager {
         let currTime = new Date().getTime();
         this.elapsedTime = currTime - prevTime;
 
-        $(this.panel.preview).html(text);
+        $(this.panel.preview).find(".preview").html(text);
 
         this.afterPreview();
 

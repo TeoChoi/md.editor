@@ -21,7 +21,10 @@ class Panel {
         this.enablePreview = options.enablePreview;
         this.placeholder = options.placeholder;
 
+        this.mode = "liveMode";// "viewMode", "editMode"
+
         this.draw();
+        this.setMode(this.mode);
     }
 
     /**
@@ -29,20 +32,27 @@ class Panel {
      */
     draw() {
         let panel = $("#" + this.id);
-        this._toolbar = $("<div id='wmd-button-bar' class='wmd-button-bar'></div>");
+        let toolbar = $("<div id='wmd-tool-bar' class='wmd-tool-bar'></div>");
+        this._toolbar = $("<div class='wmd-button-row'></div>");
+
+        let editor = $("<div class='wmd-editor'></div>").append(this._input).css({"height": this.height});
         this._input = $("<textarea class='form-control wmd-input' id='wmd-input' placeholder='" + this.placeholder + "'></textarea>");
-        this._input.css({"height": this.height});
 
         if (!this.enablePreview) {
-            this._input.css({'width': '100%'});
+            editor.css({'width': '100%'});
         }
 
-        panel.append(this._toolbar).append(this._input);
+        panel.append(toolbar.append(this._toolbar)).append(editor.append(this._input));
 
         if (this.enablePreview) {
-            this._preview = $("<div id='wmd-preview' class='wmd-preview'></div>");
+            this._preview = $("<div id='wmd-preview' class='wmd-preview'><div class='preview'></div></div>");
             panel.append(this._preview);
         }
+    }
+
+    setMode(mode) {
+        $("#" + this.id).removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
+        this.mode = mode;
     }
 }
 

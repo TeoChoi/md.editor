@@ -11,126 +11,47 @@ body {
 div {
     display: block;
 }
+/* 编辑器容器 */
 .wmd-panel {
     width:100%;
     position:relative;
+    overflow: hidden;
     border:1px solid #ccc;
     font-size:14px;
+    z-index: 1;
 }
-blockquote {
-    border-left:2px solid #009a61;
-    background:#f6f6f6;
-    font-size:1em;
-    padding:10.5px 21px;
+
+.wmd-panel.liveMode .wmd-editor {
+    width: 50%;
 }
-.wmd-button-bar {
+.wmd-panel.liveMode .wmd-preview {
+    left: 50%;
+    width: 50%;
+}
+
+.wmd-panel.editMode .wmd-editor {
+    width: 100%;
+}
+.wmd-panel.editMode .wmd-preview {
+    left: 100%;
+}
+.wmd-panel.viewMode .wmd-editor {
+    width: 50%;
+}
+.wmd-panel.viewMode .wmd-preview {
+    left: 0;
+    width: 100%;
+}
+
+/* 编辑器工具栏 */
+.wmd-tool-bar {
+    position:absolute;
+    top:0;
     width:100%;
     border-bottom:1px solid #cccccc;
     background-color:#ffffff;
-    position:absolute;
-    line-height:21px;
-    top:0;
     z-index:999;
-}
-.wmd-preview {
-    position:absolute;
-    top:0;
-    overflow:auto;
-    background-color:#f6f6f6;
-    bottom:0;
-    border: none;
-    border-left:1px solid #cccccc;
-    margin-top:31px;
-    padding:10px 20px;
-    z-index:80;
-    left: 50%;
-    width: 50%;
-    box-sizing:border-box;
-    word-wrap:break-word;
-}
-
-.wmd-preview h1,
-.wmd-preview h2,
-.wmd-preview h3,
-.wmd-preview h4,
-.wmd-preview h5,
-.wmd-preview p,
-.wmd-preview pre,
-.wmd-preview table,
-.wmd-preview ol,
-.wmd-preview ul {
-    margin: 1.5em 0;
-}
-
-.wmd-preview h1:first-child,
-.wmd-preview h2:first-child,
-.wmd-preview h3:first-child,
-.wmd-preview h4:first-child,
-.wmd-preview h5:first-child,
-.wmd-preview p:first-child,
-.wmd-preview pre:first-child,
-.wmd-preview table:first-child,
-.wmd-preview ol:first-child,
-.wmd-preview ul:first-child {
-    margin-top: 0;
-}
-
-
-.wmd-preview > pre {
-    border:none;
-    overflow: auto;
-    max-height: 400px;
-    padding:1em;
-    margin:1.5em 0;
-    width: 100%;
-    background:url("../images/blueprint.png") #f6f6f6;
-    background-size:30px,30px;
-}
-
-.wmd-preview > pre > code {
-    background:none;
-}
-.wmd-preview > .flow {
-    overflow: visible;
-}
-.wmd-preview > p {
-    background-color:transparent;
-}
-.wmd-preview ul li,
-.wmd-preview ol li
-{
-    margin: .3em;
-}
-.wmd-preview ul p,
-.wmd-preview ol p {
-    margin: 0;
-}
-
-.wmd-preview table {
-    width: 100%;
-    background-color: transparent;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-.wmd-preview table th,
-.wmd-preview table td {
-    border: 1px solid #E6E6E6;
-    padding: 5px 8px;
-    word-break: normal;
-}
-.wmd-preview table th {
-    background-color: #f3f3f3;
-}
-.wmd-preview p.diff {
-    background-color: #D9EDF7;
-}
-.wmd-preview > h1,h2 {
-    border-bottom: 1px solid #eeeeee;
-    padding-bottom: 10px;
-}
-.wmd-preview img {
-    max-width: 100%;
+    line-height:21px;
 }
 .wmd-button-row {
     position:static;
@@ -147,7 +68,8 @@ blockquote {
     list-style:none;
     cursor:pointer;
 }
-.wmd-button > span {
+
+.wmd-button > a {
     background-image:url(../images/wmd-buttons.png);
     background-repeat:no-repeat;
     background-position:0 0;
@@ -160,11 +82,22 @@ blockquote {
     line-height:21px;
     box-sizing:content-box;
 }
-.wmd-button > span:hover {
+
+.wmd-button:hover > a {
+    -ms-background-position-y:-40px;
+    background-position-y: -40px;
     border-color:#f0f0f0;
     background-color:#f0f0f0;
 }
-.wmd-spacer {
+.wmd-button.disabled > a {
+    -ms-background-position-y:-20px;
+    background-position-y: -20px;
+    border-color:#f0f0f0;
+    background-color:#f0f0f0;
+    cursor: auto;
+}
+
+.wmd-button-spacer {
     width:0;
     height:20px;
     margin:5px 4px;
@@ -173,53 +106,78 @@ blockquote {
     display:list-item;
     list-style:none;
 }
-.wmd-spacer1 {
+.wmd-button-spacer1 {
     left:50px;
 }
-.wmd-spacer2 {
+.wmd-button-spacer2 {
     left:175px;
 }
-.wmd-spacer3 {
+.wmd-button-spacer3 {
     left:300px;
 }
-.wmd-spacer4 {
+.wmd-button-spacer4 {
     float: right;
     right:75px;
 }
-.wmd-prompt-background {
-    background-color:Black;
-    filter:alpha(opacity=50);
-    opacity:0.5;
-}
 
-.wmd-input {
-    width:50%;
-    margin-top:30px;
-    padding:6px 12px;
-    font-family:Menlo,Monaco,Consolas,Courier New,monospace;
-    font-size:14px;
-    border:none;
+.wmd-preview {
+    position:absolute;
+    top:0;
+    left: 50%;
+    width: 50%;
+    overflow:auto;
+    background-color:#f6f6f6;
+    bottom:0;
+    border: none;
+    border-left:1px solid #cccccc;
+    margin-top:31px;
+    padding:10px 20px;
     box-sizing:border-box;
-    background-color:#ffffff;
-    resize:none;
-    border-right:none;
-    -webkit-transition:width .3s ease;
-    transition:width .3s ease;
+    word-wrap:break-word;
+    z-index:100;
+    -moz-transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
 }
 
-.pt{
+.wmd-editor {
+    position: relative;
+    top:0;
+    overflow: hidden;
+    background-color:#f6f6f6;
+    margin-top:31px;
+    width: 50%;
+    padding: 0;
+    font-family: Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,WenQuanYi Micro Hei,Microsoft Yahei,sans-serif;
+    border-right: none;
+    -moz-transition: width .3s ease;
+    -webkit-transition: width .3s ease;
+    -o-transition: width .3s ease;
+    transition: width .3s ease;
+}
+
+.wmd-editor > .wmd-input {
+    height: 100%;
+    width: 100%;
+    font-family: Menlo,Monaco,Consolas,Courier New,monospace;
+    border: none;
+    resize: none;
+}
+
+.modal-dialog .pt{
     padding-top: 10px;
 }
 
-.fileinput-button {
+.modal-dialog .fileinput-button {
     position: relative;
 }
-.fileinput-button > input {
+.modal-dialog .fileinput-button > input {
     position: absolute;
-    display: block;
-    box-sizing: border-box;
     top: 0;
     left: 0;
+    display: block;
+    box-sizing: border-box;
     margin: 0;
     opacity: 0;
     -ms-filter: 'alpha(opacity=0)';
