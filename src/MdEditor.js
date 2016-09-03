@@ -61,6 +61,9 @@ let options = {
     , uploadUrl: ""
     , highlight: false
     , flowchart: false
+    , helpButton: function () {
+        alert("欢迎使用md.editor编辑器!!!");
+    }
 };
 
 let defaultsStrings = {

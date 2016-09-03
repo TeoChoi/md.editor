@@ -128,7 +128,12 @@ div {
 .wmd-button-spacer3 {
     left:300px;
 }
+
 .wmd-button-spacer4 {
+    left:350px;
+}
+
+.wmd-button-spacer5 {
     float: right;
     right:75px;
 }

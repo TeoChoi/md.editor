@@ -11,6 +11,7 @@ class UIManager {
         this.id = id;
         this.panel = panel;
         this.getString = getString;
+        this.helpButton = options.helpButton;
         this.enablePreview = options.enablePreview;
     }
 
@@ -165,26 +166,30 @@ class UIManager {
             if (manager) manager.redo();
         };
 
+        this.makeSpacer(4);
+
+        buttons.help = this.makeButton("wmd-help-button", this.getString("help"), "-300px", this.helpButton)
+
         if (this.enablePreview) {
             buttons.viewMode = this.makeButton('wmd-view-button', '', '-360px', null, 'right');
             buttons.viewMode.execute = () => {
                 this.panel.setMode("viewMode");
-                this.setPanelStates();
+                this.setEditorStates();
             };
 
             buttons.liveMode = this.makeButton('wmd-live-button', '', '-340px', null, 'right');
             buttons.liveMode.execute = () => {
                 this.panel.setMode("liveMode");
-                this.setPanelStates();
+                this.setEditorStates();
             };
 
             buttons.editMode = this.makeButton('wmd-edit-button', '', '-320px', null, 'right');
             buttons.editMode.execute = () => {
                 this.panel.setMode("editMode");
-                this.setPanelStates();
+                this.setEditorStates();
             };
 
-            this.makeSpacer(4);
+            this.makeSpacer(5);
         }
 
         buttons.fullModel = this.makeButton('wmd-full-button', '', '-240px', null, 'right');
