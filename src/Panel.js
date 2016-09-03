@@ -22,6 +22,7 @@ class Panel {
         this.placeholder = options.placeholder;
 
         this.mode = "liveMode";// "viewMode", "editMode"
+        this.isFull = false;
 
         this.draw();
         this.setMode(this.mode);
@@ -35,14 +36,14 @@ class Panel {
         let toolbar = $("<div id='wmd-tool-bar' class='wmd-tool-bar'></div>");
         this._toolbar = $("<div class='wmd-button-row'></div>");
 
-        let editor = $("<div class='wmd-editor'></div>").append(this._input).css({"height": this.height});
         this._input = $("<textarea class='form-control wmd-input' id='wmd-input' placeholder='" + this.placeholder + "'></textarea>");
+        this.editor = $("<div class='wmd-editor'></div>").append(this._input).css({"height": this.height});
 
         if (!this.enablePreview) {
-            editor.css({'width': '100%'});
+            this.editor.css({'width': '100%'});
         }
 
-        panel.append(toolbar.append(this._toolbar)).append(editor.append(this._input));
+        panel.append(toolbar.append(this._toolbar)).append(this.editor.append(this._input));
 
         if (this.enablePreview) {
             this._preview = $("<div id='wmd-preview' class='wmd-preview'><div class='preview'></div></div>");
@@ -53,6 +54,18 @@ class Panel {
     setMode(mode) {
         $("#" + this.id).removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
         this.mode = mode;
+    }
+
+    makeFull(ok) {
+        if (ok) {
+            this.editor.css('height', "100%");
+            $("#" + this.id).addClass("fullMode");
+            this.isFull = true;
+        } else {
+            this.editor.css('height', this.height);
+            $("#" + this.id).removeClass("fullMode");
+            this.isFull = false;
+        }
     }
 }
 

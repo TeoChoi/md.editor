@@ -187,11 +187,20 @@ class UIManager {
             this.makeSpacer(4);
         }
 
-        buttons.full = this.makeButton('wmd-full-button', '', '-240px', () => {}, 'right');
+        buttons.fullModel = this.makeButton('wmd-full-button', '', '-240px', null, 'right');
+        buttons.fullModel.execute = () => {
+            this.panel.makeFull(true);
+            this.setPanelStates();
+        };
 
-        buttons.normal = this.makeButton('wmd-normal-button', '', '-260px', () => {}, 'right');
+        buttons.normal = this.makeButton('wmd-normal-button', '', '-260px', null, 'right');
+        buttons.normal.execute = () => {
+            this.panel.makeFull(false);
+            this.setPanelStates();
+        };
         // 重新设置撤销和恢复按钮的状态
         this.setUndoRedoButtonStates();
+        this.setEditorStates();
         this.setPanelStates();
     }
 
@@ -205,11 +214,20 @@ class UIManager {
         }
     }
 
-    setPanelStates()
-    {
+    setEditorStates() {
         this.setupButton(buttons.viewMode, this.panel.mode != 'viewMode');
         this.setupButton(buttons.editMode, this.panel.mode != 'editMode');
         this.setupButton(buttons.liveMode, this.panel.mode != 'liveMode');
+    }
+
+    setPanelStates() {
+        if (this.panel.isFull) {
+            buttons.fullModel.hide();
+            buttons.normal.show();
+        } else {
+            buttons.normal.hide();
+            buttons.fullModel.show();
+        }
     }
 
     /**

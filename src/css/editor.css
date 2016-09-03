@@ -21,6 +21,22 @@ div {
     z-index: 1;
 }
 
+.wmd-panel.fullMode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    border: none;
+    width: 100%;
+    height: 100vh;
+    background-color: #f6f6f6;
+    z-index: 999999;
+}
+
+.wmd-panel.fullMode .wmd-editor{
+    height: 100%;
+}
+
 .wmd-panel.liveMode .wmd-editor {
     width: 50%;
 }
@@ -92,9 +108,6 @@ div {
 .wmd-button.disabled > a {
     -ms-background-position-y:-20px;
     background-position-y: -20px;
-    border-color:#f0f0f0;
-    background-color:#f0f0f0;
-    cursor: auto;
 }
 
 .wmd-button-spacer {
