@@ -100,14 +100,8 @@ div {
 }
 
 .wmd-button:hover > a {
-    -ms-background-position-y:-40px;
-    background-position-y: -40px;
     border-color:#f0f0f0;
     background-color:#f0f0f0;
-}
-.wmd-button.disabled > a {
-    -ms-background-position-y:-20px;
-    background-position-y: -20px;
 }
 
 .wmd-button-spacer {
