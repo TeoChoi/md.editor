@@ -35,7 +35,8 @@ class MdEditor {
 
         undoManager.callback = () => {
             this.uiManager.setUndoRedoButtonStates();
-            previewManager.refresh();
+            if (options.enablePreview)
+                previewManager.refresh();
         };
 
         this.uiManager.commandManager = commandManager;
@@ -54,7 +55,7 @@ class MdEditor {
 
 let options = {
       converter: (new HyperDown())
-    , placeholder: `欢迎使用md.editor编辑器
+    , placeholder: `欢迎使用md.editor编辑器\n
 希望你有一个快乐的使用体验`
     , enablePreview: true
     , height: 300

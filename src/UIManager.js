@@ -190,6 +190,8 @@ class UIManager {
             };
 
             this.makeSpacer(5);
+
+            this.setEditorStates();
         }
 
         buttons.fullModel = this.makeButton('wmd-full-button', '', '-240px', null, 'right');
@@ -205,7 +207,6 @@ class UIManager {
         };
         // 重新设置撤销和恢复按钮的状态
         this.setUndoRedoButtonStates();
-        this.setEditorStates();
         this.setPanelStates();
     }
 
@@ -248,7 +249,7 @@ class UIManager {
 
         let button = $("<li></li>").addClass("wmd-button").attr("id", id + "_" + this.id);
         float == 'right' ? button.css({float: float}) : null;
-        let buttonImage = $("<a></a>");
+        let buttonImage = $("<a href='javascript:;'></a>");
 
         button.append(buttonImage);
         button.attr("title", title);
@@ -257,12 +258,6 @@ class UIManager {
         if (textOp) {
             button.textOp = textOp;
         }
-        button.on('click', (event) => {
-            if (!button.enable) {
-                return false;
-            }
-            this.doClick(button);
-        });
 
         this.setupButton(button, true);
         $(this.panel.toolbar).append(button);
@@ -285,16 +280,27 @@ class UIManager {
      * @param isEnabled
      */
     setupButton(button, isEnabled) {
-        let image = button.find("a");
-        image.css("background-position-x", button.XShift);
+        let buttonImage = button.find("a"), normalYShift = "0px", disabledYShift = "-20px", highlightYShift = "-40px";
+        buttonImage.css("background-position", button.XShift + " " + normalYShift);
 
         if (isEnabled) {
+            if (button.enable === undefined) {
+                button.on('click', (event) => {
+                    if (!button.enable) { return false; }
+                    this.doClick(button);
+                }).on('mouseover', (event) => {
+                    if (!button.enable) { return false; }
+                    buttonImage.css("background-position", button.XShift + " " + highlightYShift);
+                }).on('mouseout', (event) => {
+                    if (!button.enable) { return false; }
+                    buttonImage.css("background-position", button.XShift + " " + normalYShift);
+                });
+            }
             button.enable = true;
-            button.removeClass("disabled");
         }
         else {
+            buttonImage.css("background-position", button.XShift + " " + disabledYShift);
             button.enable = false;
-            button.addClass("disabled");
         }
     }
 
