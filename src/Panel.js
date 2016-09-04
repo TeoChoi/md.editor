@@ -25,6 +25,7 @@ class Panel {
         this.isFull = false;
 
         this.draw();
+        this.bind();
         this.setMode(this.mode);
     }
 
@@ -51,6 +52,16 @@ class Panel {
         }
     }
 
+    /**
+     * 绑定window resize事件
+     */
+    bind() {
+        $(window).bind('resize', () => {
+            if (this.isFull)
+                this.editor.css('height', $(window).height() - $(this.toolbar).outerHeight());
+        });
+    }
+
     setMode(mode) {
         $("#" + this.id).removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
         this.mode = mode;
@@ -58,7 +69,7 @@ class Panel {
 
     makeFull(ok) {
         if (ok) {
-            this.editor.css('height', "100%");
+            this.editor.css('height', $(window).height() - $(this.toolbar).outerHeight());
             $("#" + this.id).addClass("fullMode");
             this.isFull = true;
         } else {
