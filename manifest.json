@@ -1,0 +1,9 @@
+{
+  "name": "MdEditor",
+  "version": "1.1.2",
+  "description": "To Edit Markdown Text",
+  "background_page": "index.html",
+  "browser_action": {
+    "default_title": "123"
+  }
+}
