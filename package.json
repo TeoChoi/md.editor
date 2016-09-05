@@ -41,5 +41,8 @@
     "css-loader": "*",
     "style-loader": "*",
     "expose-loader": "*"
+  },
+  "scripts": {
+    "server": "node devserver.js"
   }
 }
