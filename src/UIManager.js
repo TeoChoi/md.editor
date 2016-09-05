@@ -25,6 +25,9 @@ class UIManager {
             let keyCodeChar = String.fromCharCode(event.keyCode).toLowerCase();
             if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
                 switch (keyCodeChar) {
+                    case "s":
+                        this.doSave();
+                        break;
                     case "b":
                         this.doClick(buttons.bold);
                         break;
@@ -318,9 +321,15 @@ class UIManager {
         };
     }
 
+    doSave() {
+        let text = this.panel.input.value;
+        let data = "data:x-application/text,filename='aa.txt,'"+encodeURIComponent(text);
+        window.open(data);
+    }
+
     doClick(button) {
         this.panel.input.focus();
-console.log(1)
+
         if (button.textOp) {
 
             if (this.undoManager) {
