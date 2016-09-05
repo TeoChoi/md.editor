@@ -1,6 +1,6 @@
 {
   "name": "md.editor",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "一个样式上类似segmentfault的markdown的网站编辑器",
   "keywords": [
     "markdown",
@@ -13,6 +13,11 @@
     "email": "cn.teochoi@gmail.com"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TeoChoi/md.editor"
+  },
+  "main": "./src/MdEditor",
   "dependencies": {
     "jquery": "1.12.3",
     "bootstrap": "3.3.7",
@@ -36,5 +41,8 @@
     "css-loader": "*",
     "style-loader": "*",
     "expose-loader": "*"
+  },
+  "scripts": {
+    "server": "node devserver.js"
   }
 }
