@@ -98,11 +98,11 @@ class PreviewManager {
                 cur.parent('p').removeAttr("class");
             }, 3000);
         }
-
-        if (cur.position().top < this.panel.preview.clientHeight && cur.position().top > 0) {
+        let pos = cur.position().top + cur.outerHeight();
+        if (pos < this.panel.preview.clientHeight && cur.position().top > 0) {
             return;
         }
-        this.panel.preview.scrollTop = this.panel.preview.scrollTop + cur.position().top;
+        this.panel.preview.scrollTop = this.panel.preview.scrollTop + pos;
     }
 
     afterPreview() {
@@ -117,7 +117,7 @@ class PreviewManager {
         if(this.highlight && $('code[class!=flow]').length) {
             hljs((hljs) => {
                 hljscss(() => {});
-                $('code').each(function (i, code) {
+                $('pre code').each(function (i, code) {
                     let className = $(this).attr('class');
 
                     if (className && className.split(' ').length) {
