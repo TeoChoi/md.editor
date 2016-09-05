@@ -2,8 +2,15 @@
   "name": "MdEditor",
   "version": "1.1.2",
   "description": "To Edit Markdown Text",
-  "background_page": "index.html",
+  "background": {
+    "scripts": ["background.js"]
+  },
   "browser_action": {
-    "default_title": "123"
-  }
+    "default_title": "MdEditor"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "manifest_version": 2
 }
