@@ -117,7 +117,7 @@ class PreviewManager {
         if(this.highlight && $('code[class!=flow]').length) {
             hljs((hljs) => {
                 hljscss(() => {});
-                $('code').each(function (i, code) {
+                $('pre code').each(function (i, code) {
                     let className = $(this).attr('class');
 
                     if (className && className.split(' ').length) {
