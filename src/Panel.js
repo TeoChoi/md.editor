@@ -25,7 +25,6 @@ class Panel {
         this.isFull = false;
 
         this.draw();
-        this.bind();
         this.setMode(this.mode);
     }
 
@@ -38,7 +37,9 @@ class Panel {
         this._toolbar = $("<div class='wmd-button-row'></div>");
 
         this._input = $("<textarea class='form-control wmd-input' id='wmd-input' placeholder='" + this.placeholder + "'></textarea>");
-        this.editor = $("<div class='wmd-editor'></div>").append(this._input).css({"height": this.height});
+        this.editor = $("<div class='wmd-editor'></div>").append(this._input)
+        if (this.height)
+            this.editor.css({"height": "calc(" +this.height+ " - 31px)"});
 
         if (!this.enablePreview) {
             this.editor.css({'width': '100%'});
@@ -52,16 +53,6 @@ class Panel {
         }
     }
 
-    /**
-     * 绑定window resize事件
-     */
-    bind() {
-        $(window).bind('resize', () => {
-            if (this.isFull)
-                this.editor.css('height', $(window).height() - $(this.toolbar).outerHeight());
-        });
-    }
-
     setMode(mode) {
         $("#" + this.id).removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
         this.mode = mode;
@@ -73,7 +64,7 @@ class Panel {
             $("#" + this.id).addClass("fullMode");
             this.isFull = true;
         } else {
-            this.editor.css('height', this.height);
+            this.editor.css('height', "calc(" +this.height+ " - 31px)");
             $("#" + this.id).removeClass("fullMode");
             this.isFull = false;
         }
