@@ -102,7 +102,7 @@ class PreviewManager {
         if (pos < this.panel.preview.clientHeight && cur.position().top > 0) {
             return;
         }
-        this.panel.preview.scrollTop = this.panel.preview.scrollTop + pos;
+        this.panel.preview.scrollTop = this.panel.preview.scrollTop + cur.position().top;
     }
 
     afterPreview() {

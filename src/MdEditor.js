@@ -58,7 +58,7 @@ let options = {
     , placeholder: `欢迎使用md.editor编辑器\n
 希望你有一个快乐的使用体验`
     , enablePreview: true
-    , height: 400
+    , height: "400px"
     , uploadUrl: ""
     , highlight: false
     , flowchart: false

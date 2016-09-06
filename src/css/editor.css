@@ -33,6 +33,10 @@ div {
     z-index: 999999;
 }
 
+.wmd-panel.fullMode > .wmd-editor {
+    height: calc(100% - 31px);
+}
+
 .wmd-panel.fullMode .wmd-editor{
     height: 100%;
 }
