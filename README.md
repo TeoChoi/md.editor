@@ -50,7 +50,7 @@ editor.run();
 * options.enablePreview
  默认值： true，是否启用预览
 * options.height
- 默认值：400 , 编辑器的高度
+ 默认值："400px" , 编辑器的高度
 * options.uploadUrl
  上传图片的路径
 * options.highlight
