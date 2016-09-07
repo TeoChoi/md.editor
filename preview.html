@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>测试页面</title>
+    <meta charset="utf-8">
+    <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="wmd-panel preview" id="md-preview">
+
+</code></pre><p>预格式化文本：</p><pre><code>| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+</code></pre><h4>JS代码　</h4><pre><code class="javascript">function test(){
+    console.log("Hello world!");
+}
+
+(function(){
+    var box = function(){
+        return box.fn.init();
+    };
+
+    box.prototype = box.fn = {
+        init : function(){
+            console.log('box.init()');
+
+            return this;
+        },
+
+        add : function(str){
+            alert("add", str);
+
+            return this;
+        },
+
+        remove : function(str){
+            alert("remove", str);
+
+            return this;
+        }
+    };
+
+    box.fn.init.prototype = box.fn;
+
+    window.box =box;
+})();
+
+var testBox = box();
+testBox.add("jQuery").remove("jQuery");</code></pre><h4>HTML代码 HTML codes</h4><pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;mate charest="utf-8" /&gt;
+        &lt;title&gt;Hello world!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello world!&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre><h3>图片 Images</h3><p>Image:</p><p><img src="https://pandao.github.io/editor.md/examples/images/4.jpg" alt="" title=""></p><blockquote><p>Follow your heart.</p></blockquote><p><img src="https://pandao.github.io/editor.md/examples/images/8.jpg" alt="" title=""></p><blockquote><p>图为：厦门白城沙滩</p></blockquote><p>图片加链接 (Image + Link)：</p><p><a href="https://pandao.github.io/editor.md/examples/images/7.jpg " 李健首张专辑《似水流年》封面""=""><img src="https://pandao.github.io/editor.md/examples/images/7.jpg" alt="" title=""></a></p><blockquote><p>图为：李健首张专辑《似水流年》封面</p></blockquote><hr><h3>列表 Lists</h3><h4>无序列表（减号）Unordered Lists (-)</h4><ul><li><p>列表一</p></li><li><p>列表二</p></li><li><p>列表三</p></li></ul><h4>无序列表（星号）Unordered Lists (*)</h4><ul><li><p>列表一</p></li><li><p>列表二</p></li><li><p>列表三</p></li></ul><h4>无序列表（加号和嵌套）Unordered Lists (+)</h4><ul><li><p>列表一</p></li><li><p>列表二</p><ul><li><p>列表二-1</p></li><li><p>列表二-2</p></li><li><p>列表二-3</p></li></ul></li><li><p>列表三</p><ul><li><p>列表一</p></li><li><p>列表二</p></li><li><p>列表三</p></li></ul></li></ul><h4>有序列表 Ordered Lists (-)</h4><ol><li><p>第一行</p></li><li><p>第二行</p></li><li><p>第三行</p></li></ol><hr><h3>绘制表格 Tables</h3><table><thead><tr><th>项目</th><th align="right">价格</th><th align="center">数量</th></tr></thead><tbody><tr><td>计算机</td><td align="right">$1600</td><td align="center">5</td></tr><tr><td>手机</td><td align="right">$12</td><td align="center">12</td></tr><tr><td>管线</td><td align="right">$1</td><td align="center">234</td></tr></tbody></table><table><thead><tr><th>First Header</th><th>Second Header</th></tr></thead><tbody><tr><td>Content Cell</td><td>Content Cell</td></tr><tr><td>Content Cell</td><td>Content Cell</td></tr></tbody></table><table><thead><tr><th>First Header</th><th>Second Header</th></tr></thead><tbody><tr><td>Content Cell</td><td>Content Cell</td></tr><tr><td>Content Cell</td><td>Content Cell</td></tr></tbody></table><table><thead><tr><th>Function name</th><th>Description</th></tr></thead><tbody><tr><td><code>help()</code></td><td>Display the help window.</td></tr><tr><td><code>destroy()</code></td><td><strong>Destroy your computer!</strong></td></tr></tbody></table><table><thead><tr><th align="left">Left-Aligned</th><th align="center">Center Aligned</th><th align="right">Right Aligned</th></tr></thead><tbody><tr><td align="left">col 3 is</td><td align="center">some wordy text</td><td align="right">$1600</td></tr><tr><td align="left">col 2 is</td><td align="center">centered</td><td align="right">$12</td></tr><tr><td align="left">zebra stripes</td><td align="center">are neat</td><td align="right">$1</td></tr></tbody></table><table><thead><tr><th>Item</th><th align="right">Value</th></tr></thead><tbody><tr><td>Computer</td><td align="right">$1600</td></tr><tr><td>Phone</td><td align="right">$12</td></tr><tr><td>Pipe</td><td align="right">$1</td></tr></tbody></table><hr><h4>反斜杠 Escape</h4><p>*literal asterisks*</p><h3>绘制流程图 Flowchart</h3><pre><code class="flow">st=&gt;start: 用户登陆
+op=&gt;operation: 登陆操作
+cond=&gt;condition: 登陆成功 Yes or No?
+e=&gt;end: 进入后台
+
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op</code></pre>
+</div>
+
+<script type="text/javascript" src="dist/preview.js"></script>
+<link href="dist/css/preview.css" rel="stylesheet">
+</body>
+</html>

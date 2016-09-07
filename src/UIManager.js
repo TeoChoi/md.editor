@@ -15,7 +15,7 @@ class UIManager {
         this.enablePreview = options.enablePreview;
     }
 
-    magic() {
+    run() {
         this.makeButtonRow();
         this.register();
     }
@@ -320,7 +320,7 @@ class UIManager {
 
     doClick(button) {
         this.panel.input.focus();
-console.log(1)
+
         if (button.textOp) {
 
             if (this.undoManager) {
