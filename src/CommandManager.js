@@ -7,7 +7,7 @@ class CommandManager {
     constructor(getString) {
         this.getString = getString;
         // 匹配markdown前缀符号, 四个空格是代码, > 这个符号的是引用模块,等等
-        this.prefixes = "(?:\\s{4,}|\\s*>|\\s*-\\s+|\\s*\\d+\\.|=|\\+|-|_|\\*|#|\\s*\\[[^\n]]+\\]:)";
+        this.prefixes = "(?:\\s{4,}|`{3}|\\s*>|\\s*-\\s+|\\s*\\d+\\.|=|\\+|-|_|\\*|#|\\s*\\[[^\\n]+\\]:)";
     }
 
     /**

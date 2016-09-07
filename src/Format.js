@@ -27,7 +27,7 @@ class Format
         let chunk = (new TextAreaState(this.input, true)).getChunk();
         // 判断分割线
         let line = chunk.before.match(/.*$/)[0] + chunk.after.match(/^.*/)[0];
-        if (line.length > 2 && !/[^-]+/.test(line)) {
+        if (line.length > 2 && (/^-+/.test(line) || /^`{3}[a-zA-Z]*$/.test(line))) {
             chunk.before = chunk.before.replace(/(.*$)/, this.specialString + "\n$1");
             return chunk.before + chunk.selection + chunk.after;
         }
