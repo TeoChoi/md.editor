@@ -144,30 +144,6 @@
     }
   }
 
-  .modal-dialog {
-    .pt {
-      padding-top: 10px;
-    }
-    .fileinput-button {
-      position: relative;
-
-      > input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        box-sizing: border-box;
-        margin: 0;
-        opacity: 0;
-        -ms-filter: 'alpha(opacity=0)';
-        direction: ltr;
-        cursor: pointer;
-        width: 85%;
-        height: 100%;
-        z-index: 10;
-      }
-    }
-  }
   // 全屏模式下的样式
   &.fullMode {
     position: fixed;
@@ -225,6 +201,31 @@
     }
     .wmd-button-row {
       display: none;
+    }
+  }
+}
+
+.modal-dialog {
+  .pt {
+    padding-top: 10px;
+  }
+  .fileinput-button {
+    position: relative;
+
+    > input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      opacity: 0;
+      -ms-filter: 'alpha(opacity=0)';
+      direction: ltr;
+      cursor: pointer;
+      width: 85%;
+      height: 100%;
+      z-index: 10;
     }
   }
 }

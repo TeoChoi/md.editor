@@ -35,5 +35,5 @@ module.exports = {
             "jquery.fileupload": path.resolve("./src/js/jquery.fileupload.js")
         }
     }
-    , devtool: "source-map"
+    // , devtool: "source-map"
 };

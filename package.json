@@ -23,6 +23,7 @@
     "bootstrap": "3.3.7",
     "blueimp-file-upload": "9.12.5",
     "hyperdown": "*",
+    "diff-match-patch": "*",
     "highlight.js": "*",
     "katex": "*",
     "flowchart.js": "*",

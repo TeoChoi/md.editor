@@ -1,10 +1,15 @@
 import {TextAreaState} from "./TextAreaState";
 
+let D = require("diff-match-patch");
+
 class Format
 {
     constructor(input, options) {
         this.input = input;
         this.converter = options.converter;
+
+        this.oldHtml = "";
+        this.specialString = "MDEditorSpecialString";
     }
 
     getHtml() {
@@ -12,33 +17,39 @@ class Format
     }
 
     getPreviewHtml() {
-        let text = this.insertCursor();
+        let html = this.getHtml()
 
-        let html = this.converter.makeHtml(text);
-
+        if (html != "") {
+            html = this.insertCursor(html);
+        }
         return this.handlerCursor(html);
     }
+    // 插入光标
+    insertCursor(html) {
+        let d = new D();
+        let diffs = d.diff_main(this.oldHtml, html);
+        this.oldHtml = html;
+        let chunk = [];
+        let r = /(<[^>]*$)/;
 
-    /**
-     * 插入光标
-     * @returns {*}
-     */
-    insertCursor() {
-        let chunk = (new TextAreaState(this.input, true)).getChunk();
-        // 判断分割线
-        let line = chunk.before.match(/.*$/)[0] + chunk.after.match(/^.*/)[0];
-        if (line.length > 2 && (/^-+/.test(line) || /^`{3}[a-zA-Z]*$/.test(line))) {
-            chunk.before = chunk.before.replace(/(.*$)/, this.specialString + "\n$1");
-            return chunk.before + chunk.selection + chunk.after;
+        for (let i in diffs) {
+            let type = diffs[i][0], content = diffs[i][1];
+
+            if (type == 0) {
+                chunk.push(content);
+            } else if (type == 1) {
+                // 判断是否是在标签内部
+                if (r.test(content)) {
+                    chunk.push(content.replace(r, this.specialString + "$1"));
+                } else {
+                    chunk.push(content + this.specialString);
+                }
+            } else {
+                chunk[i - 1] = chunk[i - 1].replace(r, this.specialString + "$1");
+            }
         }
-
-        // 判断是否在图片中
-        if (/!\[[^\]]*?$/.test(chunk.before) && /^[^\[]*\]/.test(chunk.after)) {
-            chunk.before = chunk.before.replace(/(!\[[^\]]*?$)/, this.specialString + "$1");
-            return chunk.before + chunk.selection + chunk.after;
-        }
-
-        return chunk.before + chunk.selection + this.specialString + chunk.after;
+console.log(chunk);
+        return chunk.join("");
     }
 
     /**
@@ -53,11 +64,7 @@ class Format
             html = html.replace(regexp, "$2$1$3")
                 .replace(regexp, "$1$3");
         }
-        // 如果跑到了h2中,应该是hr的
-        regexp = new RegExp('<h2>(' + this.specialString + ")</h2>");
-        if (regexp.test(html)) {
-            html = html.replace(regexp, "$1<hr/>")
-        }
+
         if (html)
             html = html.replace(this.specialString, "<span class='cursor'></span>");
 

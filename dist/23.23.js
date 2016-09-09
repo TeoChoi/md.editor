@@ -1,2 +1,0 @@
-webpackJsonp([23],{330:function(n,e){n.exports=function(n){var e={className:"comment",begin:/\$noop\(/,end:/\)/,contains:[{begin:/\(/,end:/\)/,contains:["self",{begin:/\\./}]}],relevance:10},a={className:"keyword",begin:/\$(?!noop)[a-zA-Z][_a-zA-Z0-9]*/,end:/\(/,excludeEnd:!0},s={className:"variable",begin:/%[_a-zA-Z0-9:]*/,end:"%"},o={className:"symbol",begin:/\\./};return{contains:[e,a,s,o]}}}});
-//# sourceMappingURL=23.23.js.map

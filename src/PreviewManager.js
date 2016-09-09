@@ -7,7 +7,6 @@ class PreviewManager {
         this.preview = preview;
 
         this.maxDelay = 3000;
-        this.specialString = "MDEditorSpecialString";
 
         this.registerEvents(this.panel.input, () => this.applyTimeout());
         this.makePreviewHtml();
