@@ -34,18 +34,25 @@ class Format
 console.log(diffs);
         for (let i in diffs) {
             let type = diffs[i][0], content = diffs[i][1];
-
+            // 寻找不同,分为三种情况, 没有变化的部分, 新增加部分和删除的部分
             if (type == 0) {
+                // 没有变化的部分就是直接添加到chunk中
                 chunk.push(content);
             } else if (type == 1) {
-                // 判断是否是在标签内部
+                // 如果是新增的就要判断,该部分是否是一个截断的标签
+                // 判断是否是在标签内部, 如果是,光标符迁移到"<"符号前边
                 if (r.test(content)) {
                     chunk.push(content.replace(r, this.specialString + "$1"));
                 } else {
                     chunk.push(content + this.specialString);
                 }
             } else {
-                chunk[i - 1] = chunk[i - 1].replace(r, this.specialString + "$1");
+                // 如果删除部分是含有未结束的标签, 证明上一个元素中含有另外一半标签符号, 进行操作
+                if (r.test(content)) {
+                    chunk[i - 1] = chunk[i - 1].replace(r, this.specialString + "$1");
+                } else {
+                    chunk.push(this.specialString);
+                }
             }
         }
 console.log(chunk);
@@ -68,7 +75,8 @@ console.log(chunk);
         }
 
         if (html)
-            html = html.replace(this.specialString, "<span class='cursor'></span>");
+            html = html.replace(this.specialString, "<span class='cursor'></span>")
+                .replace(new RegExp(this.specialString, 'g'), "");
 
         return html;
     }
