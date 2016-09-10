@@ -1154,44 +1154,48 @@
 	    _createClass(Panel, [{
 	        key: "draw",
 	        value: function draw() {
-	            var panel = $("#" + this.id);
+	            // let panel = $("#" + this.id);
+	            this.panel = $("<div class='wmd-panel'></div>");
 	            var toolbar = $("<div id='wmd-tool-bar' class='wmd-tool-bar'></div>");
 	            this._toolbar = $("<div class='wmd-button-row'></div>");
 
-	            this._input = $("<textarea class='form-control wmd-input' id='wmd-input' placeholder='" + this.placeholder + "'></textarea>");
-	            this.editor = $("<div class='wmd-editor'></div>").append(this._input);
+	            this._input = $("#" + this.id).addClass("form-control wmd-input");
+
+	            var editor = $("<div class='wmd-editor'></div>");
 
 	            if (this.height) {
-	                this.editor.css({ "height": "calc(" + this.height + " - 31px)" });
+	                this.panel.css({ "height": this.height });
 	            }
 
 	            if (!this.enablePreview) {
-	                this.editor.css({ 'width': '100%' });
+	                editor.css({ 'width': '100%' });
 	            }
 
-	            panel.append(toolbar.append(this._toolbar)).append(this.editor.append(this._input));
+	            this.panel.insertBefore(this._input);
+
+	            this.panel.append(toolbar.append(this._toolbar)).append(editor.append(this._input));
 
 	            if (this.enablePreview) {
 	                this._preview = $("<div id='wmd-preview' class='wmd-preview'><div class='preview'></div></div>");
-	                panel.append(this._preview);
+	                this.panel.append(this._preview);
 	            }
 	        }
 	    }, {
 	        key: "setMode",
 	        value: function setMode(mode) {
-	            $("#" + this.id).removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
+	            this.panel.removeClass("viewMode").removeClass("editMode").removeClass("liveMode").addClass(mode);
 	            this.mode = mode;
 	        }
 	    }, {
 	        key: "makeFull",
 	        value: function makeFull(ok) {
 	            if (ok) {
-	                this.editor.css('height', $(window).height() - $(this.toolbar).outerHeight());
-	                $("#" + this.id).addClass("fullMode");
+	                this.panel.css('height', $(window).height());
+	                this.panel.addClass("fullMode");
 	                this.isFull = true;
 	            } else {
-	                this.editor.css('height', "calc(" + this.height + " - 31px)");
-	                $("#" + this.id).removeClass("fullMode");
+	                this.panel.css('height', this.height);
+	                this.panel.removeClass("fullMode");
 	                this.isFull = false;
 	            }
 	        }

@@ -160,9 +160,6 @@
   left: 0;
   width: 100%;
 }
-.wmd-panel.viewMode .wmd-button-row {
-  display: none;
-}
 .modal-dialog .pt {
   padding-top: 10px;
 }
