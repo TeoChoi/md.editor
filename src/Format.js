@@ -31,7 +31,7 @@ class Format
         this.oldHtml = html;
         let chunk = [];
         let r = /(<[^>]*$)/;
-
+console.log(diffs);
         for (let i in diffs) {
             let type = diffs[i][0], content = diffs[i][1];
 
@@ -58,6 +58,8 @@ console.log(chunk);
      * @returns {string|XML|void|*}
      */
     handlerCursor(html) {
+        // 一种变化是破坏了标签
+
         // 是否在标签内部
         let regexp = new RegExp('(<[^>]*)(' + this.specialString + ')([^<]*>)');
         if (regexp.test(html)) {
