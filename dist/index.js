@@ -104,8 +104,9 @@
 	var e = new _MdEditor.MdEditor("md-text", {
 	    strings: [], // 数组编辑器使用的,参考defaultString
 	    highlight: true,
-	    // flowchart: true,
+	    flowchart: true,
 	    // enablePreview: false,
+	    height: "100%",
 	    uploadUrl: "./upload.json"
 	});
 
@@ -345,7 +346,7 @@
 	                            _this.doClick(buttons.redo);
 	                            break;
 	                        case "z":
-	                            if (key.shiftKey) {
+	                            if (event.shiftKey) {
 	                                _this.doClick(buttons.redo);
 	                            } else {
 	                                _this.doClick(buttons.undo);
@@ -17283,25 +17284,32 @@
 	            this.oldHtml = html;
 	            var chunk = [];
 	            var r = /(<[^>]*$)/;
-	            console.log(diffs);
+
 	            for (var i in diffs) {
 	                var type = diffs[i][0],
 	                    content = diffs[i][1];
-
+	                // 寻找不同,分为三种情况, 没有变化的部分, 新增加部分和删除的部分
 	                if (type == 0) {
+	                    // 没有变化的部分就是直接添加到chunk中
 	                    chunk.push(content);
 	                } else if (type == 1) {
-	                    // 判断是否是在标签内部
+	                    // 如果是新增的就要判断,该部分是否是一个截断的标签
+	                    // 判断是否是在标签内部, 如果是,光标符迁移到"<"符号前边
 	                    if (r.test(content)) {
 	                        chunk.push(content.replace(r, this.specialString + "$1"));
 	                    } else {
 	                        chunk.push(content + this.specialString);
 	                    }
 	                } else {
-	                    chunk[i - 1] = chunk[i - 1].replace(r, this.specialString + "$1");
+	                    // 如果删除部分是含有未结束的标签, 证明上一个元素中含有另外一半标签符号, 进行操作
+	                    if (r.test(content)) {
+	                        chunk[chunk.length - 1] = chunk[chunk.length - 1].replace(r, this.specialString + "$1");
+	                    } else {
+	                        chunk.push(this.specialString);
+	                    }
 	                }
 	            }
-	            console.log(chunk);
+
 	            return chunk.join("");
 	        }
 
@@ -17314,15 +17322,13 @@
 	    }, {
 	        key: "handlerCursor",
 	        value: function handlerCursor(html) {
-	            // 一种变化是破坏了标签
-
 	            // 是否在标签内部
 	            var regexp = new RegExp('(<[^>]*)(' + this.specialString + ')([^<]*>)');
 	            if (regexp.test(html)) {
 	                html = html.replace(regexp, "$2$1$3").replace(regexp, "$1$3");
 	            }
 
-	            if (html) html = html.replace(this.specialString, "<span class='cursor'></span>");
+	            if (html) html = html.replace(this.specialString, "<span class='cursor'></span>").replace(new RegExp(this.specialString, 'g'), "");
 
 	            return html;
 	        }
@@ -19644,7 +19650,7 @@
 
 	            if (code.length == 1 && pre.length == 1) {
 	                this.panel.preview.scrollTop += pre.position().top;
-	                pre.scrollTop((pre.height() - pre.innerHeight()) / 2 + pre.scrollTop() + cur.position().top);
+	                pre.scrollTop(cur.position().top - cur.outerHeight() - (pre.outerHeight(true) - pre.outerHeight()) / 2);
 	                return;
 	            }
 

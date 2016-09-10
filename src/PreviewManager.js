@@ -80,7 +80,7 @@ class PreviewManager {
 
         if (code.length == 1 && pre.length == 1) {
             this.panel.preview.scrollTop += pre.position().top;
-            pre.scrollTop((pre.height() - pre.innerHeight()) / 2 + pre.scrollTop() + cur.position().top);
+            pre.scrollTop(cur.position().top - cur.outerHeight() - (pre.outerHeight(true) - pre.outerHeight()) / 2);
             return;
         }
 

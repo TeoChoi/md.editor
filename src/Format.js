@@ -31,7 +31,7 @@ class Format
         this.oldHtml = html;
         let chunk = [];
         let r = /(<[^>]*$)/;
-console.log(diffs);
+
         for (let i in diffs) {
             let type = diffs[i][0], content = diffs[i][1];
             // 寻找不同,分为三种情况, 没有变化的部分, 新增加部分和删除的部分
@@ -49,13 +49,13 @@ console.log(diffs);
             } else {
                 // 如果删除部分是含有未结束的标签, 证明上一个元素中含有另外一半标签符号, 进行操作
                 if (r.test(content)) {
-                    chunk[i - 1] = chunk[i - 1].replace(r, this.specialString + "$1");
+                    chunk[chunk.length - 1] = chunk[chunk.length - 1].replace(r, this.specialString + "$1");
                 } else {
                     chunk.push(this.specialString);
                 }
             }
         }
-console.log(chunk);
+
         return chunk.join("");
     }
 
@@ -65,8 +65,6 @@ console.log(chunk);
      * @returns {string|XML|void|*}
      */
     handlerCursor(html) {
-        // 一种变化是破坏了标签
-
         // 是否在标签内部
         let regexp = new RegExp('(<[^>]*)(' + this.specialString + ')([^<]*>)');
         if (regexp.test(html)) {

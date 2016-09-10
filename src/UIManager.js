@@ -59,7 +59,7 @@ class UIManager {
                         this.doClick(buttons.redo);
                         break;
                     case "z":
-                        if (key.shiftKey) {
+                        if (event.shiftKey) {
                             this.doClick(buttons.redo);
                         }
                         else {
