@@ -28,7 +28,7 @@ npm install md.editor
 * 在尾部添加
 ```html
 <script type="text/javascript" src="/dist/index.js"></script>
-<script type="text/javascript" src="/dist/css/global.css.js"></script>
+<link href="dist/css/editor.css" rel="stylesheet">
 ```
 
 ### 2. webpack使用
