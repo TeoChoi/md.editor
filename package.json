@@ -1,0 +1,52 @@
+{
+  "name": "md.editor",
+  "version": "1.2.0",
+  "description": "一个样式上类似segmentfault的markdown的网站编辑器",
+  "keywords": [
+    "markdown",
+    "html",
+    "javascript",
+    "segmentfault"
+  ],
+  "author": {
+    "name": "teochoi",
+    "email": "cn.teochoi@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TeoChoi/md.editor"
+  },
+  "main": "./src/MdEditor",
+  "dependencies": {
+    "jquery": "1.12.3",
+    "bootstrap": "3.3.7",
+    "blueimp-file-upload": "9.12.5",
+    "hyperdown": "*",
+    "diff-match-patch": "*",
+    "highlight.js": "*",
+    "katex": "*",
+    "flowchart.js": "*",
+    "js-sequence-diagrams": "*"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "*",
+    "webpack": "*",
+    "express": ">= 0.0.1",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0",
+    "url-loader": "*",
+    "file-loader": "*",
+    "bundle-loader": "*",
+    "babel-loader": "*",
+    "extract-text-webpack-plugin": "*",
+    "css-loader": "*",
+    "style-loader": "*",
+    "less": "*",
+    "less-loader": "*",
+    "expose-loader": "*"
+  },
+  "scripts": {
+    "start": "node devserver.js"
+  }
+}

@@ -1,0 +1,87 @@
+.preview {
+  .preview h1,
+  .preview h2,
+  .preview h3,
+  .preview h4,
+  .preview h5,
+  .preview p,
+  .preview pre,
+  .preview table,
+  .preview ol,
+  .preview ul {
+    margin: 1.5em 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  blockquote {
+    border-left:2px solid #009a61;
+    background:#f6f6f6;
+    font-size:1em;
+    padding:10.5px 21px;
+  }
+
+  pre {
+    border:none;
+    overflow: auto;
+    max-height: 400px;
+    padding:1em;
+    margin:1.5em 0;
+    width: 100%;
+    background:url("../images/blueprint.png") #f6f6f6;
+    background-size:30px,30px;
+
+    code {
+      background:none;
+
+      .flow {
+        overflow: visible;
+      }
+    }
+  }
+
+  p {
+    background-color:transparent;
+  }
+
+  ul li,
+  ol li
+  {
+    margin: .3em;
+    p {
+      margin: 0;
+    }
+  }
+
+  table {
+    width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    td,th {
+      border: 1px solid #E6E6E6;
+      padding: 5px 8px;
+      word-break: normal;
+    }
+
+    th {
+      background-color: #f3f3f3;
+    }
+  }
+
+  h1,h2 {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .diff {
+    background-color: #D9EDF7;
+  }
+}

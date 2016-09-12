@@ -1,0 +1,1 @@
+webpackJsonp([122],{231:function(a,n){a.exports=function(a){var n=a.COMMENT(/\(\*/,/\*\)/),e={className:"attribute",begin:/^[ ]*[a-zA-Z][a-zA-Z-]*([\s-]+[a-zA-Z][a-zA-Z]*)*/},t={className:"meta",begin:/\?.*\?/},i={begin:/=/,end:/;/,contains:[n,t,a.APOS_STRING_MODE,a.QUOTE_STRING_MODE]};return{illegal:/\S/,contains:[n,e,i]}}}});
