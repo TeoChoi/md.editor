@@ -21,8 +21,8 @@ npm install md.editor
 
 * 在页面中添加编辑器元素
 ```html
-<div class="wmd-panel" id="wmd-panel">
-</div>
+<textarea id="md-text">
+</textarea>
 ```
 
 * 在尾部添加

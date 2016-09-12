@@ -3,6 +3,7 @@ import {Panel} from "./Panel";
 import {Dialog} from "./Dialog";
 import {CommandManager} from "./CommandManager";
 import {UndoManager} from "./UndoManager";
+import {Preview} from "./Preview";
 import {Format} from "./Format";
 import {PreviewManager} from "./PreviewManager";
 let HyperDown = require("hyperdown");
@@ -14,24 +15,31 @@ class MdEditor {
     constructor(id, opts) {
         this.id = id;
         this.events = new Map();
-        options = $.extend(options, opts);
+        this.options = $.extend(options, opts);
 
+    }
+
+    getString(key) {
+        return options.strings[key] || defaultsStrings[key];
+    }
+
+    run() {
         let panel, dialog, commandManager, undoManager, previewManager;
 
-        panel = new Panel(this.id, options);
-        dialog = new Dialog(options);
+        panel = new Panel(this.id, this.options);
+        dialog = new Dialog(this.options);
 
         commandManager = new CommandManager(this.getString);
         commandManager.dialog = dialog;
         undoManager = new UndoManager(panel.input);
 
-        options.format = new Format(panel.input, options);
-
-        if (options.enablePreview) {
-            previewManager = new PreviewManager(panel, options);
+        if (this.options.enablePreview) {
+            let format = new Format(panel.input, this.options);
+            let preview = new Preview(panel.preview, this.options);
+            previewManager = new PreviewManager(panel, format, preview, this.options);
         }
 
-        this.uiManager = new UIManager(id, panel, this.getString, options);
+        this.uiManager = new UIManager(this.id, panel, this.getString, this.options);
 
         undoManager.callback = () => {
             this.uiManager.setUndoRedoButtonStates();
@@ -42,14 +50,8 @@ class MdEditor {
         this.uiManager.commandManager = commandManager;
         this.uiManager.undoManager = undoManager;
         this.uiManager.previewManager = previewManager;
-    }
 
-    getString(key) {
-        return options.strings[key] || defaultsStrings[key];
-    }
-
-    run() {
-        this.uiManager.magic();
+        this.uiManager.run();
     }
 }
 

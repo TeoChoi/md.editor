@@ -1,17 +1,12 @@
-let hljs = require("bundle?lazy!highlight.js/lib/highlight.js");
-let hljscss = require("bundle?lazy!highlight.js/styles/atom-one-dark.css");
-let raphael = require("bundle?lazy!raphael");
-let flowchart = require("bundle?lazy!flowchart.js");
 
 class PreviewManager {
 
-    constructor(panel, options) {
+    constructor(panel, format, preview, options) {
         this.panel = panel;
-        this.format = options.format;
+        this.format = format;
+        this.preview = preview;
+
         this.maxDelay = 3000;
-        this.specialString = "MDEditorSpecialString";
-        this.highlight = options.highlight;
-        this.flowchart = options.flowchart;
 
         this.registerEvents(this.panel.input, () => this.applyTimeout());
         this.makePreviewHtml();
@@ -60,15 +55,15 @@ class PreviewManager {
 
         let prevTime = new Date().getTime();
 
-        text = this.format.getPreviewHtml();
+        let html = this.format.getPreviewHtml();
 
         // 计算转换Html的时间, 这个时间用于时间监听的延迟时间
         let currTime = new Date().getTime();
         this.elapsedTime = currTime - prevTime;
 
-        $(this.panel.preview).find(".preview").html(text);
+        this.preview.setHtml(html);
 
-        this.afterPreview();
+        this.preview.run();
 
         this.setPreviewScrollTops();
     }
@@ -83,19 +78,19 @@ class PreviewManager {
             return;
         }
 
-        if (code.length == 1 ) {
+        if (code.length == 1 && pre.length == 1) {
             this.panel.preview.scrollTop += pre.position().top;
-            pre.scrollTop((pre.height() - pre.innerHeight()) / 2 + pre.scrollTop() + cur.position().top);
+            pre.scrollTop(cur.position().top - cur.outerHeight() - (pre.outerHeight(true) - pre.outerHeight()) / 2);
             return;
         }
 
-        if (cur.parent('p').length != 0) {
-            cur.parent('p').addClass('diff');
+        if (cur.parent('div').length == 0) {
+            cur.parent().addClass('diff');
             if (this.t)
                 clearTimeout(this.t);
 
             this.t = setTimeout(() => {
-                cur.parent('p').removeAttr("class");
+                cur.parent().removeAttr("class");
             }, 3000);
         }
         let pos = cur.position().top + cur.outerHeight();
@@ -103,54 +98,6 @@ class PreviewManager {
             return;
         }
         this.panel.preview.scrollTop = this.panel.preview.scrollTop + cur.position().top;
-    }
-
-    afterPreview() {
-        this.runHighlight();
-        this.runFlowchart();
-    }
-
-    /**
-     * 执行高亮
-     */
-    runHighlight() {
-        if(this.highlight && $('code[class!=flow]').length) {
-            hljs((hljs) => {
-                hljscss(() => {});
-                $('pre code').each(function (i, code) {
-                    let className = $(this).attr('class');
-
-                    if (className && className.split(' ').length) {
-                        className = className.split(' ')[0];
-                        try {
-                            let lang = require("bundle!highlight.js/lib/languages/" + className);
-                            lang((module) => {
-                                hljs.registerLanguage(className, module);
-                                hljs.highlightBlock(code);
-                            })
-                        } catch (err) {
-                            hljs.highlightBlock(code);
-                        }
-                    } else {
-                        hljs.highlightBlock(code);
-                    }
-                })
-            });
-        }
-    }
-
-    /**
-     * 执行flow
-     */
-    runFlowchart() {
-        if (this.flowchart && $("code.flow").length) {
-            $("code.flow").each(function (i, code) {
-                flowchart(() => {
-                    $(this).parent('pre').css({"overflow": "visible", "max-height": "none"});
-                    $(this).flowChart();
-                })
-            })
-        }
     }
 }
 
