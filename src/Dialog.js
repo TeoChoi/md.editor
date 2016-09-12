@@ -139,8 +139,9 @@ class Dialog {
             let okButton = $('#imageOkButton');
 
             $('#' + id + ' a').click(function (e) {
-                e.preventDefault()
-                $(this).blur().tab('show')
+                e.preventDefault();
+                $(this).blur();
+                    $(this).tab('show');
 
                 okButton.unbind();
                 if ($(this).attr('aria-controls') == 'remote') {
