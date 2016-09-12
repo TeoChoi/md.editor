@@ -84,13 +84,13 @@ class PreviewManager {
             return;
         }
 
-        if (cur.parent('p').length != 0) {
-            cur.parent('p').addClass('diff');
+        if (cur.parent('div').length == 0) {
+            cur.parent().addClass('diff');
             if (this.t)
                 clearTimeout(this.t);
 
             this.t = setTimeout(() => {
-                cur.parent('p').removeAttr("class");
+                cur.parent().removeAttr("class");
             }, 3000);
         }
         let pos = cur.position().top + cur.outerHeight();
