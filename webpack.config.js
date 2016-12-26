@@ -9,16 +9,16 @@ module.exports = {
     ]
     //页面入口文件配置
     , entry: {
-        "index": "./index.js"
-        , "preview": "./preview.js"
-        ,"css/editor": "./src/less/editor.less"
-        ,"css/preview": "./src/less/preview.less"
+        "index": "./index.js",
+        "preview": "./preview.js",
+        "css/editor": "./src/less/editor.less",
+        "css/preview": "./src/less/preview.less"
     }
     //入口文件输出配置
     , output: {
-        path: path.resolve("dist")
-        , filename: "[name].js"
-        , publicPath: "/dist/"
+        path: "./dist/",
+        filename: "[name].js",
+        publicPath: "/md.editor/dist/"
     }
     , watch: true
     , module: {
@@ -27,7 +27,7 @@ module.exports = {
             {test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader")},
             {test: /\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")},
             {test: /\.js$/, loader: "babel", query: {presets: ['es2015']}, exclude: /(node_modules|bower_components)/},
-            {test: /\.(png|jpg|eot|svg|ttf|woff|woff2)$/, loader: "url-loader?limit=8140"}
+            {test: /\.(png|jpg|eot|svg|ttf|woff|woff2)$/, loader: "url-loader?limit=2000"}
         ]
     }
     , resolve: {

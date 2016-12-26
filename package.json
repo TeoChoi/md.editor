@@ -38,6 +38,7 @@
     "url-loader": "*",
     "file-loader": "*",
     "bundle-loader": "*",
+    "babel-core": "*",
     "babel-loader": "*",
     "extract-text-webpack-plugin": "*",
     "css-loader": "*",
