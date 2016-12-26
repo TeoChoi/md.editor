@@ -27,7 +27,7 @@ module.exports = {
             {test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader")},
             {test: /\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")},
             {test: /\.js$/, loader: "babel", query: {presets: ['es2015']}, exclude: /(node_modules|bower_components)/},
-            {test: /\.(png|jpg|eot|svg|ttf|woff|woff2)$/, loader: "url-loader?limit=8140"}
+            {test: /\.(png|jpg|eot|svg|ttf|woff|woff2)$/, loader: "url-loader?limit=2000"}
         ]
     }
     , resolve: {
