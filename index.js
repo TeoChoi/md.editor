@@ -7,7 +7,7 @@ let e = new MdEditor("md-text", {
     flowchart: true,
     // enablePreview: false,
     height: "100%",
-    uploadUrl:"./upload.json"
+    uploadUrl:"/upload.json"
 });
 
 e.run();
