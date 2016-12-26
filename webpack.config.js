@@ -9,16 +9,16 @@ module.exports = {
     ]
     //页面入口文件配置
     , entry: {
-        "index": "./index.js"
-        , "preview": "./preview.js"
-        ,"css/editor": "./src/less/editor.less"
-        ,"css/preview": "./src/less/preview.less"
+        "index": "./index.js",
+        "preview": "./preview.js",
+        "css/editor": "./src/less/editor.less",
+        "css/preview": "./src/less/preview.less"
     }
     //入口文件输出配置
     , output: {
-        path: path.resolve("dist")
-        , filename: "[name].js"
-        , publicPath: "/dist/"
+        path: "./dist/",
+        filename: "[name].js",
+        publicPath: "/md.editor/dist/"
     }
     , watch: true
     , module: {
